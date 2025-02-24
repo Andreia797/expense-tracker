@@ -1,9 +1,9 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, jsonify
 import sqlite3
 
 app = Flask(__name__)
 
-# Criar o banco de dados SQLite
+# Inicializar a base de dados
 def init_db():
     with sqlite3.connect('database.db') as conn:
         cursor = conn.cursor()
@@ -34,11 +34,33 @@ def add_transaction():
 
 @app.route('/transactions', methods=['GET'])
 def get_transactions():
+    category = request.args.get('category')
+    date = request.args.get('date')
+    query = 'SELECT * FROM transactions WHERE 1=1'
+    params = []
+
+    if category:
+        query += ' AND category=?'
+        params.append(category)
+    if date:
+        query += ' AND date=?'
+        params.append(date)
+
     with sqlite3.connect('database.db') as conn:
         cursor = conn.cursor()
-        cursor.execute('SELECT * FROM transactions')
+        cursor.execute(query, params)
         transactions = cursor.fetchall()
     return jsonify(transactions)
+
+    @app.route('/chart-data', methods=['GET'])
+def get_chart_data():
+    with sqlite3.connect('database.db') as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT category, SUM(amount) FROM transactions GROUP BY category")
+        data = cursor.fetchall()
+    labels = [row[0] for row in data]
+    values = [row[1] for row in data]
+    return jsonify({'labels': labels, 'values': values})
 
 if __name__ == '__main__':
     app.run(debug=True)
