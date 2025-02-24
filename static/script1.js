@@ -32,4 +32,18 @@ async function fetchTransactions() {
     });
 }
 
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleModeBtn = document.getElementById('toggle-mode');
+    toggleModeBtn.innerHTML = '🌙 Mudar Modo';
+    toggleModeBtn.addEventListener('click', function () {
+        document.body.classList.toggle('light-mode');
+        if (document.body.classList.contains('light-mode')) {
+            toggleModeBtn.innerHTML = '☀️ Mudar Modo';
+        } else {
+            toggleModeBtn.innerHTML = '🌙 Mudar Modo';
+        }
+    });
+});
+
 document.addEventListener('DOMContentLoaded', fetchTransactions);
+
