@@ -29,6 +29,6 @@ Este é um aplicativo de rastreamento de despesas desenvolvido com **Python (Fla
 
 
 ## 📌 Melhorias Futuras
-📈 Implementar exportação de relatórios em PDF/Excel
-🔔 Adicionar notificações de limite de gastos
-🔄 Sincronização em nuvem
+- 📈 Implementar exportação de relatórios em PDF/Excel
+- 🔔 Adicionar notificações de limite de gastos
+- 🔄 Sincronização em nuvem
